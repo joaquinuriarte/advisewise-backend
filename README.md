@@ -1,2 +1,2 @@
 # advisewise
- Repository for official advisewise WebApp
+ Official repo for advisewise WebApp
