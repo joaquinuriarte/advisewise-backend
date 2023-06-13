@@ -12,14 +12,14 @@ export class ScheduleService {
 
     async getCourseTitle(id: number): Promise<string> {
         const result = await this.courseRepository.query(`SELECT * FROM courses WHERE id = $1`, [id]);
-        const course = await this.courseRepository.findOne({
-            where: {
-                id: id
-            }
-        });
-        console.log(result)
+        // const course = await this.courseRepository.findOne({
+        //     where: {
+        //         id: id                   // TODO: Understand why doesn't this work and fix
+        //     }
+        // // });
+        // console.log(course)
         if (result[0] && result[0].class_name) {
-            return `The title of this course is: ${result[0].class_name}`;
+            return `The title of this course is: ${result[0].class_name}, and it counts for ${result[0].number_of_credits} credits!`;
         } else {
             return 'Course not found';
         }
