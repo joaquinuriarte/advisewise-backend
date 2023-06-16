@@ -18,10 +18,16 @@ export class ScheduleService {
         //     }
         // // });
         // console.log(course)
+        console.log(result)
         if (result[0] && result[0].class_name) {
             return `The title of this course is: ${result[0].class_name}, and it counts for ${result[0].number_of_credits} credits!`;
         } else {
             return 'Course not found';
         }
+    }
+
+    async getAllTitles(): Promise<string> {
+        const result = await this.courseRepository.query(`SELECT id, class_name FROM courses`);
+        return result
     }
 }
