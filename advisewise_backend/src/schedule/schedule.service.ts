@@ -27,7 +27,7 @@ export class ScheduleService {
     }
 
     async getAllTitles(): Promise<string> {
-        const result = await this.courseRepository.query(`SELECT id, class_name FROM courses`); // Test
+        const result = await this.courseRepository.query(`SELECT id, class_name, number_of_credits FROM courses`); // Test
         return result
     }
 }
