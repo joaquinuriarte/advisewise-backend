@@ -2,32 +2,42 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from './course.entity';
+import { Semester } from './semester.entity';
+import { Semester_Courses } from './semester_courses.entity';
+
+// Always use TypeORM's querying methods instead of raw SQL
 
 @Injectable()
 export class ScheduleService {
     constructor(
         @InjectRepository(Course)
         private courseRepository: Repository<Course>,
+        @InjectRepository(Semester)
+        private semesterRepository: Repository<Semester>,
+        @InjectRepository(Semester_Courses)
+        private semester_coursesRepository: Repository<Semester_Courses>,
     ) {}
 
-    async getCourseTitle(id: number): Promise<string> {
-        const result = await this.courseRepository.query(`SELECT * FROM courses WHERE id = $1`, [id]);
-        // const course = await this.courseRepository.findOne({
-        //     where: {
-        //         id: id                   // TODO: Understand why doesn't this work and fix
-        //     }
-        // // });
-        // console.log(course)
-        console.log(result)
-        if (result[0] && result[0].class_name) {
-            return `The title of this course is: ${result[0].class_name}, and it counts for ${result[0].number_of_credits} credits!`;
-        } else {
-            return 'Course not found';
-        }
+    async getAllTitles(): Promise<Course[]> {
+        return this.courseRepository.find({
+            select: ['id', 'class_name', 'number_of_credits']
+        });
     }
 
-    async getAllTitles(): Promise<string> {
-        const result = await this.courseRepository.query(`SELECT id, class_name, number_of_credits FROM courses`); // Test
-        return result
+    async getSemestersForFourYearPlan(id: number): Promise<Semester[]> {
+        return this.semesterRepository.find({
+            where: {
+                four_year_plan_id: id
+            }
+        });
+    }
+
+    async getCoursesForSemester(id: number): Promise<Semester_Courses[]> {
+        return this.semester_coursesRepository.find({
+            where: {
+                semester_id: id
+            },
+            select: ['course_id', 'difficulty']
+        });
     }
 }
