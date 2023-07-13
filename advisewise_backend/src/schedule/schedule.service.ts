@@ -40,4 +40,8 @@ export class ScheduleService {
             select: ['course_id', 'difficulty']
         });
     }
+
+    async updateEntirePlan(planData: any): Promise<any> {
+        return true;
+    }
 }

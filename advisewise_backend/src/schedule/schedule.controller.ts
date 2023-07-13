@@ -1,4 +1,4 @@
-import { Controller, Get, Param} from '@nestjs/common';
+import { Controller, Get, Param, Post, Body} from '@nestjs/common';
 import { ScheduleService } from './schedule.service';
 import { Course } from './course.entity';
 import { Semester } from './semester.entity';
@@ -8,8 +8,18 @@ import { Semester_Courses } from './semester_courses.entity';
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
 
+  @Post('updateEntirePlan')
+  async updateEntirePlan(@Body() planData: any): Promise<any> {
+    // `planData` will be an object containing the JSON data sent in the request body
+    
+    // This should call a service method that handles updating the plan, something like:
+    console.log('planData');
+    return this.scheduleService.updateEntirePlan(planData);
+  }
+
   @Get('all')
   async getAllCourses(): Promise<Course[]> {
+    console.log("print");
     return this.scheduleService.getAllTitles();
   }
 
@@ -18,9 +28,8 @@ export class ScheduleController {
     return this.scheduleService.getSemestersForFourYearPlan(params.id);
   }
 
-  @Get('/semester/:id')
+  @Get('semester/:id')
   async getCoursesForSemester(@Param() params: any): Promise<Semester_Courses[]> {
     return this.scheduleService.getCoursesForSemester(params.id);
   }
-  
 }
