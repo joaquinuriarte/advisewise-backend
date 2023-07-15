@@ -8,12 +8,20 @@ import { Semester_Courses } from './semester_courses.entity';
 export class ScheduleController {
   constructor(private readonly scheduleService: ScheduleService) {}
 
-  @Post('updateEntirePlan')
-  async updateEntirePlan(@Body() planData: any): Promise<any> {
+  @Post('updateEntirePlanAdd')
+  async updateEntirePlanAdd(@Body() planData: any): Promise<any> {
     // `planData` will be an object containing the JSON data sent in the request body
     
     // This should call a service method that handles updating the plan, something like:
-    return this.scheduleService.updateEntirePlan(planData);
+    return this.scheduleService.updateEntirePlanAdd(planData);
+  }
+
+  @Post('updateEntirePlanRemove')
+  async updateEntirePlanRemove(@Body() planData: any): Promise<any> {
+    // `planData` will be an object containing the JSON data sent in the request body
+    
+    // This should call a service method that handles updating the plan, something like:
+    return this.scheduleService.updateEntirePlanRemove(planData);
   }
 
   @Get('all')

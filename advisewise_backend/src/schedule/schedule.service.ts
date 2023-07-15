@@ -41,7 +41,7 @@ export class ScheduleService {
         });
     }
 
-    async updateEntirePlan(planData: any): Promise<any> {
+    async updateEntirePlanAdd(planData: any): Promise<any> {
         const { course_id, difficulty, semester_id } = planData;
     
         // Check if a record already exists for the given semester and course
@@ -69,5 +69,30 @@ export class ScheduleService {
             // Save the new record
             return this.semester_coursesRepository.save(newSemesterCourse);
         }
-    }    
+    }  
+    
+    async updateEntirePlanRemove(planData: any): Promise<any> {
+        const { course_id, semester_id } = planData;
+    
+        // Check if a record already exists for the given semester and course
+        let semester_course = await this.semester_coursesRepository.findOne({
+            where: {
+                semester_id: semester_id,
+                course_id: course_id
+            }
+        });
+        if (!semester_course) {
+            // If the record doesn't exist, ignore
+            //TODO: Add logging that lets us know that flow is entering here. It shouldn't.
+            return true;
+        } else {
+            // If the record does exist, delete it
+            let deleted = this.semester_coursesRepository.delete({
+                semester_id: semester_id,
+                course_id: course_id
+            });
+            return true 
+        }
+    }
+       
 }
