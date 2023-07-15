@@ -42,6 +42,32 @@ export class ScheduleService {
     }
 
     async updateEntirePlan(planData: any): Promise<any> {
-        return true;
-    }
+        const { course_id, difficulty, semester_id } = planData;
+    
+        // Check if a record already exists for the given semester and course
+        let semester_course = await this.semester_coursesRepository.findOne({
+            where: {
+                semester_id: semester_id,
+                course_id: course_id
+            }
+        });
+    
+        if (semester_course) {
+            // If the record exists, update the difficulty level
+            semester_course.difficulty = difficulty;
+    
+            // Save the updated record
+            return this.semester_coursesRepository.save(semester_course);
+        } else {
+            // If the record doesn't exist, create a new one
+            const newSemesterCourse = this.semester_coursesRepository.create({
+                semester_id: semester_id,
+                course_id: course_id,
+                difficulty: difficulty
+            });
+    
+            // Save the new record
+            return this.semester_coursesRepository.save(newSemesterCourse);
+        }
+    }    
 }

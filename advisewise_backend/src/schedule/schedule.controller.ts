@@ -13,13 +13,11 @@ export class ScheduleController {
     // `planData` will be an object containing the JSON data sent in the request body
     
     // This should call a service method that handles updating the plan, something like:
-    console.log('planData');
     return this.scheduleService.updateEntirePlan(planData);
   }
 
   @Get('all')
   async getAllCourses(): Promise<Course[]> {
-    console.log("print");
     return this.scheduleService.getAllTitles();
   }
 
