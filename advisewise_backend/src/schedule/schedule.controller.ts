@@ -3,6 +3,7 @@ import { ScheduleService } from './schedule.service';
 import { Course } from './course.entity';
 import { Semester } from './semester.entity';
 import { Semester_Courses } from './semester_courses.entity';
+import { Four_year_plans } from './four_year_plan.entity';
 
 @Controller('schedule')
 export class ScheduleController {
@@ -24,7 +25,12 @@ export class ScheduleController {
     return this.scheduleService.updateEntirePlanRemove(planData);
   }
 
-  @Get('all')
+  @Get('allPlans/:student_id')
+  async getAllPlans(@Param('student_id') student_id: number): Promise<Four_year_plans[]> {
+    return this.scheduleService.getAllPlans(student_id);
+  }
+
+  @Get('allCourses')
   async getAllCourses(): Promise<Course[]> {
     return this.scheduleService.getAllTitles();
   }

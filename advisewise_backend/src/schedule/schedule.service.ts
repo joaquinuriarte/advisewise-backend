@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Course } from './course.entity';
 import { Semester } from './semester.entity';
 import { Semester_Courses } from './semester_courses.entity';
+import { Four_year_plans } from './four_year_plan.entity';
 
 // Always use TypeORM's querying methods instead of raw SQL
 
@@ -16,11 +17,22 @@ export class ScheduleService {
         private semesterRepository: Repository<Semester>,
         @InjectRepository(Semester_Courses)
         private semester_coursesRepository: Repository<Semester_Courses>,
+        @InjectRepository(Four_year_plans)
+        private four_year_plansRepository: Repository<Four_year_plans>,
     ) {}
 
     async getAllTitles(): Promise<Course[]> {
         return this.courseRepository.find({
             select: ['id', 'class_name', 'number_of_credits']
+        });
+    }
+
+    async getAllPlans(student_id: number): Promise<Four_year_plans[]> {
+        return this.four_year_plansRepository.find({
+            where: {
+                student_id: student_id
+            },
+            select: ['id', 'name', 'official']
         });
     }
 

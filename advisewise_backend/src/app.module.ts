@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Course } from './schedule/course.entity';
 import { Semester } from './schedule/semester.entity';
 import { Semester_Courses } from './schedule/semester_courses.entity';
+import { Four_year_plans } from './schedule/four_year_plan.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { Semester_Courses } from './schedule/semester_courses.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [Course, Semester_Courses, Semester],
+      entities: [Course, Semester_Courses, Semester, Four_year_plans],
       synchronize: false, // TODO: it will change database to match schema in nestJS entity -> set to false in production
     })
   ],
